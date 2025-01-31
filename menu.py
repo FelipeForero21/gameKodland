@@ -22,8 +22,10 @@ pygame.mixer.music.play(-1)
 
 sonido_seleccion = pygame.mixer.Sound("clickSeleccion.mp3")
 
+fondo = pygame.image.load("marin_fondo.png")  
+fondo = pygame.transform.scale(fondo, (ANCHO, ALTO)) 
+
 def dibujar_menu():
-    pantalla.fill(NEGRO)
     for i, opcion in enumerate(opciones):
         color = ROJO if i == opcion_seleccionada else BLANCO
         texto = fuente.render(opcion, True, color)
@@ -71,6 +73,7 @@ def manejar_eventos():
 ejecutando = True
 while ejecutando:
     ejecutando = manejar_eventos()
+    pantalla.blit(fondo, (0, 0)) 
     dibujar_menu()
     
 pygame.mixer.music.stop()
