@@ -1,5 +1,6 @@
 import pygame
 import opciones as mod_opciones
+import tutorial as mod_tutorial
 
 pygame.init()
 
@@ -36,6 +37,15 @@ def dibujar_menu():
         pantalla.blit(texto, (ANCHO // 3, 200 + i * 60))
     pygame.display.flip()
 
+def transicion_tutorial():
+    for i in range(0, 50):
+        pantalla.fill((i * 5, i * 5, i * 5))
+        pygame.display.flip()
+        pygame.time.delay(20)
+    print("Entrando al Tutorial...")
+    mod_tutorial.tutorial(pantalla, ANCHO, ALTO) 
+
+
 def transicion_opciones():
     for i in range(0, 50):
         pantalla.fill((i * 5, i * 5, i * 5))
@@ -57,8 +67,11 @@ def manejar_eventos():
                 opcion_seleccionada = (opcion_seleccionada + 1) % len(opciones)
                 sonido_seleccion.play()  
             elif evento.key == pygame.K_RETURN:
-                if opciones[opcion_seleccionada] == "Opciones":
+                if opciones[opcion_seleccionada] == "Tutorial":
+                    transicion_tutorial()
+                elif opciones[opcion_seleccionada] == "Opciones":
                     transicion_opciones()
+                    
     return True
 
 ejecutando = True
