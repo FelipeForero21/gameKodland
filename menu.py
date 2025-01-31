@@ -16,13 +16,13 @@ fuente = pygame.font.Font(None, 50)
 opciones = ["Modo Campaña", "Modo Libre", "Opciones"]
 opcion_seleccionada = 0
 
-pygame.mixer.music.load("IntroMenuPrincipal.mp3") 
+pygame.mixer.music.load("sonidos/IntroMenuPrincipal.mp3") 
 pygame.mixer.music.set_volume(0.5)  
 pygame.mixer.music.play(-1) 
 
-sonido_seleccion = pygame.mixer.Sound("clickSeleccion.mp3")
+sonido_seleccion = pygame.mixer.Sound("sonidos/clickSeleccion.mp3")
 
-fondo = pygame.image.load("marin_fondo.png")  
+fondo = pygame.image.load("imagenes/marin_fondo.png")  
 fondo = pygame.transform.scale(fondo, (ANCHO, ALTO)) 
 
 def dibujar_menu():
