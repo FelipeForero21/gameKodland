@@ -16,6 +16,12 @@ fuente = pygame.font.Font(None, 50)
 opciones = ["Modo Campaña", "Modo Libre", "Opciones"]
 opcion_seleccionada = 0
 
+pygame.mixer.music.load("IntroMenuPrincipal.mp3") 
+pygame.mixer.music.set_volume(0.5)  
+pygame.mixer.music.play(-1) 
+
+sonido_seleccion = pygame.mixer.Sound("clickSeleccion.mp3")
+
 def dibujar_menu():
     pantalla.fill(NEGRO)
     for i, opcion in enumerate(opciones):
@@ -57,20 +63,15 @@ def manejar_eventos():
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_UP:
                 opcion_seleccionada = (opcion_seleccionada - 1) % len(opciones)
+                sonido_seleccion.play() 
             elif evento.key == pygame.K_DOWN:
                 opcion_seleccionada = (opcion_seleccionada + 1) % len(opciones)
-            elif evento.key == pygame.K_RETURN:
-                if opcion_seleccionada == 0:
-                    transicion_campana()
-                elif opcion_seleccionada == 1:
-                    transicion_libre()
-                elif opcion_seleccionada == 2:
-                    transicion_opciones()
+                sonido_seleccion.play()  
     return True
-
 ejecutando = True
 while ejecutando:
     ejecutando = manejar_eventos()
     dibujar_menu()
     
+pygame.mixer.music.stop()
 pygame.quit()
