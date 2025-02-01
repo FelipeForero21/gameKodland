@@ -1,5 +1,6 @@
 import pygame
 import sys
+import configuracion
 
 def opciones(pantalla, ancho, alto):
     pygame.init()
@@ -7,21 +8,17 @@ def opciones(pantalla, ancho, alto):
     fuente = pygame.font.Font(None, 36)
     fuente_titulo = pygame.font.Font(None, 48)
     
-    volumen_musica = 0.5
-    
+    volumen_musica = configuracion.obtener_volumen()  
     pygame.mixer.music.set_volume(volumen_musica)
     
-    opcion_seleccionada = 0
     opciones_texto = ["Volumen Música: ", "Volver"]
+    opcion_seleccionada = 0
     
-    fondo = pygame.image.load("imagenes/opciones_fondo.png")
-    fondo = pygame.transform.scale(fondo, (ancho, alto))
+    fondo = pygame.transform.scale(pygame.image.load("imagenes/opciones_fondo.png"), (ancho, alto))
     
     while True:
         pantalla.blit(fondo, (0, 0))
-        
-        titulo = fuente_titulo.render("Usa las flechas para ajustar el volumen", True, (255, 255, 255))
-        pantalla.blit(titulo, (ancho // 2 - titulo.get_width() // 2, 50))
+        pantalla.blit(fuente_titulo.render("Usa las flechas para ajustar el volumen", True, (255, 255, 255)), (ancho // 2 - 250, 50))
         
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -32,18 +29,15 @@ def opciones(pantalla, ancho, alto):
                     opcion_seleccionada = (opcion_seleccionada + 1) % 2
                 elif evento.key == pygame.K_UP:
                     opcion_seleccionada = (opcion_seleccionada - 1) % 2
-                elif evento.key == pygame.K_LEFT:
-                    if opcion_seleccionada == 0 and volumen_musica > 0.0:
-                        volumen_musica -= 0.1
-                        pygame.mixer.music.set_volume(volumen_musica)
-                elif evento.key == pygame.K_RIGHT:
-                    if opcion_seleccionada == 0 and volumen_musica < 1.0:
-                        volumen_musica += 0.1
-                        pygame.mixer.music.set_volume(volumen_musica)
-                elif evento.key == pygame.K_RETURN:
-                    if opcion_seleccionada == 1:
-                        return  
-                        
+                elif evento.key == pygame.K_LEFT and opcion_seleccionada == 0 and volumen_musica > 0:
+                    volumen_musica -= 0.1
+                    configuracion.establecer_volumen(volumen_musica)
+                elif evento.key == pygame.K_RIGHT and opcion_seleccionada == 0 and volumen_musica < 1:
+                    volumen_musica += 0.1
+                    configuracion.establecer_volumen(volumen_musica)
+                elif evento.key == pygame.K_RETURN and opcion_seleccionada == 1:
+                    return
+                
         for i, texto in enumerate(opciones_texto):
             color = (255, 255, 255) if i == opcion_seleccionada else (180, 180, 180)
             renderizado = fuente.render(f"{texto} {round(volumen_musica, 1) if i == 0 else ''}", True, color)
