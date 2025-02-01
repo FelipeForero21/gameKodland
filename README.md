@@ -37,4 +37,4 @@
 Para iniciar el juego, solo ejecuta el archivo principal:
 
 ```bash
-python main.py
+python menu.py
